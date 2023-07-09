@@ -76,6 +76,8 @@ export default {
     if(sessionStorage.getItem('camera4url') !== null)
       this.imgSrc4 = "http://127.0.0.1:8000/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera4url'))
 
+
+
     // if(sessionStorage.getItem('camera1url') !== null){
     //   request.get("/recognition/first_image/?camera_url="+encodeURIComponent(sessionStorage.getItem("camera1url"))).then(res=>{
     //     console.log(res)
@@ -117,7 +119,7 @@ export default {
       else
         cid = 4;
 
-      this.region.url = "rtmp://47.92.211.14:1935/live/"+cid
+      this.region.url = sessionStorage.getItem("camera"+cid+"url")
 
       request.post("/recognition/range_coordinate/",this.region).then(res=>{
         this.$message({

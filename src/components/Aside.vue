@@ -14,7 +14,7 @@
     </div>
     <div class="line"></div>
     <div class="title">
-      <p>Customer</p>
+      <p>User</p>
     </div>
     <div class="menu">
       <div class="item" @click="toPage1()">
@@ -38,32 +38,32 @@
       <div class="item" @click="toMyHistory">
         <div class="light"></div>
         <div class="licon"><el-icon :size="30"><Files/></el-icon></div>
-        <div class="con">My history</div>
+        <div class="con">Page4</div>
         <div class="ricon"><el-icon :size="20"><Edit/></el-icon></div>
       </div>
     </div>
     <div class="line"></div>
     <div class="title">
-      <p>Transporter</p>
+      <p>Admin</p>
     </div>
     <div class="serve">
       <div class="item" @click="toReceiveOrder">
         <div class="licon"><el-icon :size="30"><House/></el-icon></div>
-        <div class="con">Orders</div>
+        <div class="con">Page1</div>
         <div class="ricon">
           <span class="iconfont icon-Dashboard"></span>
         </div>
       </div>
       <div class="item" @click="toMyInTrans">
         <div class="licon"><el-icon :size="30"><Menu/></el-icon></div>
-        <div class="con">In transit</div>
+        <div class="con">Page2</div>
         <div class="ricon">
           <span class="iconfont icon-Dashboard"></span>
         </div>
       </div>
       <div class="item" @click="toTransHistory">
         <div class="licon"><el-icon :size="30"><Document/></el-icon></div>
-        <div class="con">Trans History</div>
+        <div class="con">Page3</div>
         <div class="ricon">
           <span class="iconfont icon-Dashboard"></span>
         </div>
