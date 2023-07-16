@@ -4,21 +4,37 @@
 
 <script>
 import * as echarts from 'echarts';
+import request from "@/utils/request";
 
 let option;
 let myChart;
 
 export default {
   name: 'Pchart',
+  data() {
+    return {
+      data: [],
+    }
+  },
   mounted() {
-    this.initChart();
+
+    request.get("/recognition/camera_record/uid/" + sessionStorage.getItem("id") + "/").then(res => {
+      let resData = JSON.parse(res.data)
+      this.data = [
+        {value: resData[0], name: 'Camera1'},
+        {value: resData[1], name: 'Camera2'},
+        {value: resData[2], name: 'Camera3'},
+        {value: resData[3], name: 'Camera4'}
+      ]
+      this.initChart();
+    })
   },
   methods: {
     initChart() {
       // 在这里设置你的图表数据和配置
       myChart = echarts.init(document.getElementById('pchart'), 'dark');
       option = {
-        backgroundColor:'rgba(0,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,0)',
         title: {
           text: '饼图程序调用高亮示例',
           left: 'center'
@@ -30,7 +46,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+          data: ['Camera1', 'Camera2', 'Camera3', 'Camera4'],
           textStyle: {
             fontSize: 18, // 设置图例字体大小
           },
@@ -41,13 +57,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' },
-              { value: 135, name: '视频广告' },
-              { value: 1548, name: '搜索引擎' }
-            ],
+            data: this.data,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,

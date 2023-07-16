@@ -7,10 +7,10 @@
       <form>
         <h2 class="title">Create Account</h2>
         <span class="text">or use email for registration</span>
-        <input class="form__input" type="text" v-model="registerData.name" placeholder="Name" />
-        <input class="form__input" type="text" v-model="registerData.email" placeholder="Email" />
-        <input class="form__input" type="password" v-model="registerData.password" placeholder="Password" />
-        <input class="form__input" type="password" v-model="registerData.repassword" placeholder="Confirm Password" />
+        <input class="form__input" type="text" v-model="registerData.name" placeholder="Name"/>
+        <input class="form__input" type="text" v-model="registerData.email" placeholder="Email"/>
+        <input class="form__input" type="password" v-model="registerData.password" placeholder="Password"/>
+        <input class="form__input" type="password" v-model="registerData.repassword" placeholder="Confirm Password"/>
         <div class="form__input">
           <div class="my-2 flex items-center text-sm" style="padding-left: 55px; padding-top: 4px">
             <el-radio-group v-model="registerData.gender" class="ml-4">
@@ -28,16 +28,17 @@
       <form>
         <h2 class="title">Sign in to Website</h2>
         <span class="text">or use email for registration</span>
-        <input class="form__input" type="text" v-model="form.email" placeholder="Username" />
-        <input class="form__input" type="password" v-model="form.password" placeholder="Password" />
+        <input class="form__input" type="text" v-model="form.email" placeholder="Username"/>
+        <input class="form__input" type="password" v-model="form.password" placeholder="Password"/>
         <div style="width: 350px; height: 40px">
-          <input class="form__input" style="width: 170px" v-model="form.ImageCode" type="text" placeholder="CheckCode" />
+          <input class="form__input" style="width: 170px" v-model="form.ImageCode" type="text" placeholder="CheckCode"/>
           <div style="width: 150px; float: right; margin: 4px 0">
-            <image-code :change="data.change_img_code" @click="changeImageCode" @getCode="backImageCode" ></image-code>
+            <image-code :change="data.change_img_code" @click="changeImageCode" @getCode="backImageCode"></image-code>
           </div>
         </div>
         <div class="primary-btn" @click="login" style="font-weight: bold">Sign In</div>
-        <img class="faceIcon" src="../assets/otherImg/R.png" alt="" style="width: 40px; height: 40px; margin-top: 15px; cursor: pointer" @click="toFaceRecognize()">
+        <img class="faceIcon" src="../assets/otherImg/R.png" alt=""
+             style="width: 40px; height: 40px; margin-top: 15px; cursor: pointer" @click="toFaceRecognize()">
       </form>
     </div>
     <div :class="['switch', { login: isLogin }]">
@@ -69,32 +70,34 @@ import {reactive} from "vue";
 import {Lock, User} from "@element-plus/icons";
 import request from "@/utils/request";
 import Bubble from "@/components/Bubble.vue";
+import axios from "axios";
+
 export default {
   name: 'Login',
   data() {
     return {
       form: {},
-      registerData: {repassword: "", gender:""},
+      registerData: {repassword: "", gender: ""},
       isLogin: false
     }
   },
-  setup(){
+  setup() {
     const data = reactive({
       change_img_code: false, // 刷新验证码
-      img_code:'',// 加密后的验证码值
+      img_code: '',// 加密后的验证码值
     })
 
     // 刷新验证码操作
-    const changeImageCode = ()=> {
+    const changeImageCode = () => {
       data.change_img_code = !data.change_img_code
     }
 
     // 接收组件返回加密后的验证码值
-    const backImageCode = (code) =>{
+    const backImageCode = (code) => {
       data.img_code = code
-      console.log('data',data.img_code)
+      console.log('data', data.img_code)
     }
-    return{
+    return {
       User,
       Lock,
       changeImageCode,
@@ -103,61 +106,68 @@ export default {
     }
   },
   methods: {
-    login(){
-      if(this.data.img_code !== md5(this.form.ImageCode)){
+    login() {
+      if (this.data.img_code !== md5(this.form.ImageCode)) {
         this.changeImageCode()
         this.$message({
           type: "error",
           message: "Captcha error"
         })
-      }
-      else{
-        request.post("/users/login", {username: this.form.email, password: md5(this.form.password+"groupfour")}).then(res=>{
-          if(res.message === "Login Success."){
+      } else {
+        const formData = new FormData()
+        formData.append("username", this.form.email)
+        formData.append("password", this.form.password)
+        request.post("/user/login/", formData).then(res => {
+          if (res.code === 200) {
             this.$message({
               type: "success",
               message: "Success"
             })
-            this.$router.push("/firstpage")
-            sessionStorage.setItem("id",res.data.id)
+            sessionStorage.setItem("id", res.data.id)
             sessionStorage.setItem("username", res.data.username)
-            sessionStorage.setItem("accessToken", res.data.accessToken)
-            sessionStorage.setItem("refreshToken", res.data.refreshToken)
-            sessionStorage.setItem("loginTime", res.data.loginTime)
-            sessionStorage.setItem("Access-Cypher", md5(res.data.accessToken + 'accessgroupfour' + res.data.loginTime))
-            sessionStorage.setItem('Refresh-Cypher', md5(res.data.refreshToken + 'refreshgroupfour' + res.data.loginTime))
-          }
-          else{
+            sessionStorage.setItem("email", res.data.email)
+            sessionStorage.setItem("curPage", "1")
+            let camera_urls = JSON.parse(res.data.camera_urls.replace(/'/g, "\""))
+            sessionStorage.setItem("camera1url", camera_urls.url1)
+            sessionStorage.setItem("camera2url", camera_urls.url2)
+            sessionStorage.setItem("camera3url", camera_urls.url3)
+            sessionStorage.setItem("camera4url", camera_urls.url4)
+            this.$router.push("/page1")
+          } else {
             this.$message({
               type: "error",
               message: "Account or Password wrong"
             })
             this.changeImageCode()
           }
-        }).catch(err=>{
+        }).catch(err => {
           this.$message({
             type: "error",
-            message: "Account or Password wrong"
+            message: "Client wrong"
           })
           this.changeImageCode()
         })
       }
     },
-    register(){
-      if(this.registerData.password !== this.registerData.repassword){
+    register() {
+      if (this.registerData.password !== this.registerData.repassword) {
         this.$message({
           type: "error",
           message: "Passwords do not match"
         })
-      }
-      else{
-        request.post("/users", {username: this.registerData.name, password: md5(this.registerData.password+"groupfour")}).then(res=>{
-            this.$message({
-              type: "success",
-              message: "Success"
-            })
-            this.registerData = {}
-        }).catch(err=>{
+      } else {
+        const formData = new FormData()
+        formData.append("username", this.registerData.name)
+        formData.append("email", this.registerData.email)
+        formData.append("password1", this.registerData.password)
+        formData.append("password2", this.registerData.repassword)
+        request.post("/user/register/", formData).then(res => {
+          this.$message({
+            type: "success",
+            message: "Success"
+          })
+          this.registerData = {}
+        }).catch(err => {
           this.$message({
             type: "error",
             message: "User exist"
@@ -165,11 +175,11 @@ export default {
         })
       }
     },
-    toFaceRecognize(){
+    toFaceRecognize() {
       this.$router.push('/face')
     }
   },
-  components:{
+  components: {
     Bubble,
     ImageCode
   }
@@ -177,13 +187,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body{
+body {
   height: 100%;
   width: 100%;
   position: absolute;
   background-image: linear-gradient(to right top, #ffffff, #fbfbfd, #f5f8fb, #eff5f9, #e8f2f5, #e6f1f4, #e3eff2, #e1eef1, #e3eef2, #e5eef3, #e7edf4, #e9edf4);
   overflow: hidden;
 }
+
 .main-box {
   margin: 130px auto 0;
   position: relative;
@@ -196,6 +207,7 @@ body{
   box-shadow: 10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9;
   border-radius: 12px;
   overflow: hidden;
+
   .container {
     display: flex;
     justify-content: center;
@@ -207,6 +219,7 @@ body{
     padding: 25px;
     background-color: #ecf0f3;
     transition: all 1.25s;
+
     form {
       display: flex;
       justify-content: center;
@@ -215,16 +228,19 @@ body{
       width: 100%;
       height: 100%;
       color: #a0a5a8;
+
       .title {
         font-size: 34px;
         font-weight: 700;
         line-height: 3;
         color: #181818;
       }
+
       .text {
         margin-top: 30px;
         margin-bottom: 12px;
       }
+
       .form__input {
         width: 350px;
         height: 40px;
@@ -239,29 +255,35 @@ body{
         transition: 0.25s ease;
         border-radius: 8px;
         box-shadow: inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9;
+
         &::placeholder {
           color: #a0a5a8;
         }
       }
     }
   }
+
   .container-register {
     z-index: 100;
     left: calc(100% - 600px);
   }
+
   .container-login {
     left: calc(100% - 600px);
     z-index: 0;
   }
+
   .is-txl {
     left: 0;
     transition: 1.25s;
     transform-origin: right;
   }
+
   .is-z200 {
     z-index: 200;
     transition: 1.25s;
   }
+
   .switch {
     display: flex;
     justify-content: center;
@@ -278,6 +300,7 @@ body{
     overflow: hidden;
     box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
     color: #a0a5a8;
+
     .switch__circle {
       position: absolute;
       width: 500px;
@@ -289,12 +312,14 @@ body{
       left: -60%;
       transition: 1.25s;
     }
+
     .switch__circle_top {
       top: -30%;
       left: 60%;
       width: 300px;
       height: 300px;
     }
+
     .switch__container {
       display: flex;
       justify-content: center;
@@ -304,12 +329,14 @@ body{
       width: 400px;
       padding: 50px 55px;
       transition: 1.25s;
+
       h2 {
         font-size: 34px;
         font-weight: 700;
         line-height: 3;
         color: #181818;
       }
+
       p {
         font-size: 14px;
         letter-spacing: 0.25px;
@@ -318,12 +345,15 @@ body{
       }
     }
   }
+
   .login {
     left: calc(100% - 400px);
+
     .switch__circle {
       left: 0;
     }
   }
+
   .primary-btn {
     width: 180px;
     height: 50px;
@@ -337,6 +367,7 @@ body{
     color: #f9f9f9;
     cursor: pointer;
     box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9;
+
     &:hover {
       box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 50%),
       -4px -4px 6px 0 rgba(116, 125, 136, 50%),
@@ -345,7 +376,8 @@ body{
     }
   }
 }
-.faceIcon:hover{
+
+.faceIcon:hover {
   transform: scale(1.1);
 }
 </style>

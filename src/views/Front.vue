@@ -5,18 +5,18 @@
   </el-button>
   <div class="logo">
     <img src="../assets/img/logo.svg" alt=""/>
-    <h3>The Candy Factory</h3>
+    <h3>Home monitor</h3>
   </div>
   <div class="menu"><img src="../assets/img/menu.svg" alt=""/></div>
 
   <div class="section">
     <div class="slogan">
-      <h3 class="rellax" data-rellax-speed="6">The Candy Factory</h3>
-      <h1 class="rellax" data-rellax-speed="5">Bring Sweetness</h1>
+      <h3 class="rellax" data-rellax-speed="6">Home monitor</h3>
+      <h1 class="rellax" data-rellax-speed="5">Bring Security</h1>
       <p class="rellax" data-rellax-speed="3">
-        We service all brackets of special events from birthdays to weddings,
-        from gala nights to corporate functions and every one things in
-        between! No event or special day is ever too small..
+        With the development of society, home security has become increasingly
+        important. Traditional home surveillance systems primarily rely on CCTV cameras, but they have limited
+        functionality and scalability, often only providing features such as video recording and remote viewing.
       </p>
     </div>
     <img class="img1 rellax" data-rellax-speed="-2" src="../assets/img/1.png" alt=""/>
@@ -30,12 +30,13 @@
   </div>
   <div class="section">
     <div class="slogan">
-      <h3>How We Started</h3>
+      <h3>Started</h3>
       <h1>All Started With A Simple Smile</h1>
       <p>
-        WCotton candy formed by a machine was invented in 1897 by a dentist
-        known as William Morrison and a confectioner John C. Wharton. It was
-        first sold at the 1904 World's Fair with great success...
+        We have developed a home surveillance web system based on computer vision algorithms,
+        which retrieves video feed from network cameras to better meet the needs of real-time monitoring,
+        versatility, and user-friendliness. The main features include user management,
+        pedestrian and pet recognition, emotion recognition, intrusion detection, and model services.
       </p>
     </div>
     <img

@@ -9,7 +9,6 @@
       <div class="icon-img"><img src="../assets/otherImg/eric.jpg" alt="" /></div>
       <div class="icon-con">
         <p>Good Day</p>
-        <h2>{{this.name}}</h2>
       </div>
     </div>
     <div class="line"></div>
@@ -19,26 +18,26 @@
     <div class="menu">
       <div class="item" @click="toPage1()">
         <div class="light"></div>
-        <div class="licon"><el-icon :size="30"><User/></el-icon></div>
-        <div class="con">Page1</div>
+        <div class="licon"><el-icon :size="30"><House/></el-icon></div>
+        <div class="con">Object</div>
         <div class="ricon"><el-icon :size="20"><Star/></el-icon></div>
       </div>
       <div class="item" @click="toPage2()">
         <div class="light"></div>
         <div class="licon"><el-icon :size="30"><Notebook/></el-icon></div>
-        <div class="con">Page2</div>
+        <div class="con">Region</div>
         <div class="ricon"><el-icon :size="20"><Pointer/></el-icon></div>
       </div>
       <div class="item" @click="toPage3()">
         <div class="light"></div>
         <div class="licon"><el-icon :size="30"><Message/></el-icon></div>
-        <div class="con">Page3</div>
+        <div class="con">Auth</div>
         <div class="ricon"><el-icon :size="20"><View/></el-icon></div>
       </div>
-      <div class="item" @click="toMyHistory">
+      <div class="item" @click="toPage4()">
         <div class="light"></div>
         <div class="licon"><el-icon :size="30"><Files/></el-icon></div>
-        <div class="con">Page4</div>
+        <div class="con">Emotion</div>
         <div class="ricon"><el-icon :size="20"><Edit/></el-icon></div>
       </div>
     </div>
@@ -47,30 +46,16 @@
       <p>Admin</p>
     </div>
     <div class="serve">
-      <div class="item" @click="toReceiveOrder">
-        <div class="licon"><el-icon :size="30"><House/></el-icon></div>
-        <div class="con">Page1</div>
-        <div class="ricon">
-          <span class="iconfont icon-Dashboard"></span>
-        </div>
-      </div>
-      <div class="item" @click="toMyInTrans">
-        <div class="licon"><el-icon :size="30"><Menu/></el-icon></div>
-        <div class="con">Page2</div>
-        <div class="ricon">
-          <span class="iconfont icon-Dashboard"></span>
-        </div>
-      </div>
-      <div class="item" @click="toTransHistory">
-        <div class="licon"><el-icon :size="30"><Document/></el-icon></div>
-        <div class="con">Page3</div>
+      <div class="item" @click="toPage6()">
+        <div class="licon"><el-icon :size="30"><User/></el-icon></div>
+        <div class="con">Information</div>
         <div class="ricon">
           <span class="iconfont icon-Dashboard"></span>
         </div>
       </div>
     </div>
     <div class="menu">
-      <div class="item" @click="toCreateOrder" style="margin-top: 15px">
+      <div class="item" @click="toSetting()" style="margin-top: 15px">
         <div class="light"></div>
         <div class="licon"><el-icon :size="30"><Setting/></el-icon></div>
         <div class="con">Setting</div>
@@ -81,32 +66,65 @@
 </template>
 
 <script>
-import {Menu, Share, User, Notebook, Document, Star, Pointer, View, House, Edit,Message, Files, Setting} from "@element-plus/icons";
+import {
+  Menu,
+  Share,
+  User,
+  Notebook,
+  Document,
+  Star,
+  Pointer,
+  View,
+  House,
+  Edit,
+  Message,
+  Files,
+  Setting,
+  Fold
+} from "@element-plus/icons";
+
+
 export default {
   name: "Aside",
-  components: {Share, User, Menu, Notebook, Document, Star, Pointer, View, House, Edit,Message, Files, Setting},
+  components: {Fold, Share, User, Menu, Notebook, Document, Star, Pointer, View, House, Edit,Message, Files, Setting},
   methods:{
     toPage1(){
+      this.$store.commit('setSlide', this.slideWhere(1))
       this.$router.push("/page1")
+      sessionStorage.setItem("curPage", "1")
     },
     toPage2(){
+      this.$store.commit('setSlide', this.slideWhere(2))
       this.$router.push("/page2")
+      sessionStorage.setItem("curPage", "2")
     },
     toPage3(){
+      this.$store.commit('setSlide', this.slideWhere(3))
       this.$router.push("/page3")
+      sessionStorage.setItem("curPage", "3")
     },
-    toMyHistory(){
-      this.$router.push("/myhistory")
+    toPage4(){
+      this.$store.commit('setSlide', this.slideWhere(4))
+      this.$router.push("/page4")
+      sessionStorage.setItem("curPage", "4")
     },
-    toReceiveOrder(){
-      this.$router.push("/receive")
+    toPage6(){
+      this.$store.commit('setSlide', this.slideWhere(5))
+      this.$router.push("/page5")
+      sessionStorage.setItem("curPage", "5")
     },
-    toMyInTrans(){
-      this.$router.push("/myintrans")
+    toSetting(){
+      this.$store.commit('setSlide', this.slideWhere(6))
+      this.$router.push("/page6")
+      sessionStorage.setItem("curPage", "6")
     },
-    toTransHistory(){
-      this.$router.push("/transhistory")
-    }
+    slideWhere(page){
+      if(page > parseInt(sessionStorage.getItem("curPage"))){
+        return "slide-left"
+      }
+      else
+        return "slide-right"
+    },
   },
   data(){
     return{
@@ -142,6 +160,7 @@ export default {
   border-radius: 20px;
   overflow: hidden;
   transition: 0.5s;
+  z-index: 1;
 }
 
 .nav:hover {

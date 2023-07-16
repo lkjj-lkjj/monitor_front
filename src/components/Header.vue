@@ -34,7 +34,7 @@
       <KinesisElement :axis="'x'" :strength="-25">
         <div class="layer"><img src="../assets/bilibiliImg/4b6146a07413b4cfa730e5556a9869d53f224486.png"
                                 data-height="181" data-width="1732" height="105" width="1005"
-                                style="height: 105.097px; width: 1005.68px; transform: translate(0px, 0px) rotate(0deg) scale(1); opacity: 0;">
+                                style="height: 105.097px; width: 1005.68px; transform: translate(0px, 0px) rotate(0deg) scale(1); opacity: 1;">
         </div>
       </KinesisElement>
       <KinesisElement :axis="'x'" :strength="50">
@@ -46,7 +46,7 @@
       <KinesisElement :axis="'x'" :strength="-35">
         <div class="layer"><img src="../assets/bilibiliImg/b11ff52ee378576bd8e8b599b476a06b76f62358.png"
                                 data-height="155" data-width="1812" height="117" width="1367"
-                                style="height: 117px; width: 1367.77px; transform: translate(-226.452px, 56.6129px) rotate(0deg) scale(1); opacity: 0;">
+                                style="height: 117px; width: 1367.77px; transform: translate(-226.452px, 56.6129px) rotate(0deg) scale(1); opacity: 1;">
         </div>
       </KinesisElement>
       <KinesisElement :axis="'x'" :strength="100">

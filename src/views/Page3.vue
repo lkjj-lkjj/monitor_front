@@ -2,85 +2,49 @@
   <div style="width: 80%; display: flex">
     <div style="display: flex; flex-wrap: wrap; width: 1000px;">
       <div class="video" style="background-color: rgba(0,0,0,0.6)">
-        <img src="../assets/otherImg/captured-photo.jpg" alt="" style="width: auto; height: 98%; border-radius: 10px">
+        <img :src="imgSrc" alt="" style="width: auto; height: 98%; border-radius: 10px">
       </div>
       <div class="table">
-        <div style="transform: scale(0.6); margin-top: -200px; margin-left: -60px">
-          <Bchart></Bchart>
-        </div>
-        <div style="transform: scale(0.9); margin-left: 400px; margin-top: -550px">
+        <div style="transform: scale(0.9); margin-left: 200px;margin-top: -150px">
           <Lchart></Lchart>
         </div>
       </div>
     </div>
     <div style="display: flex; flex-wrap: wrap; width: 550px; margin-left: 20px;">
       <div class="chart">
-        <div style="width: 180px; margin: 20px; padding: 30px 30px 10px;background-color: rgba(0,0,0,0.2); border-radius: 20px">
-          <el-form>
-            <el-form-item>
-              <span style="color: #cecece">Algo1: </span>
-              <el-switch
-                  v-model="form.switch1"
-                  class="ml-2"
-                  inline-prompt
-                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949; margin-left: 20px"
-                  active-text="Y"
-                  inactive-text="N"
-              />
-            </el-form-item>
-            <el-form-item>
-              <span style="color: #cecece">Algo2: </span>
-              <el-switch
-                  v-model="form.switch2"
-                  class="ml-2"
-                  inline-prompt
-                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949; margin-left: 20px"
-                  active-text="Y"
-                  inactive-text="N"
-              />
-            </el-form-item>
-            <el-form-item>
-              <span style="color: #cecece">Algo3: </span>
-              <el-switch
-                  v-model="form.switch3"
-                  class="ml-2"
-                  inline-prompt
-                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949; margin-left: 20px"
-                  active-text="Y"
-                  inactive-text="N"
-              />
-            </el-form-item>
-            <el-form-item>
-              <span style="color: #cecece">Algo3: </span>
-              <el-switch
-                  v-model="form.switch4"
-                  class="ml-2"
-                  inline-prompt
-                  style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949; margin-left: 20px"
-                  active-text="Y"
-                  inactive-text="N"
-              />
-            </el-form-item>
-            <el-form-item>
-              <el-button style="margin-left: 20px; margin-top: 15px; border-radius: 20px;" type="success">Submit</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div class="chartDown">
-
+          <el-table :data="tableData" style="width: 100%; border-radius: 20px; padding:0 10px 10px 10px;opacity: 0.9" height="834">
+            <el-table-column fixed prop="intrusion_time" label="Date" width="200" />
+            <el-table-column prop="video_path" label="Path" width="400" />
+            <el-table-column fixed="right" label="Video" width="120">
+              <template #default="scope">
+                <el-button link type="primary" @click="showVideo(scope.row.video_path)">play</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
       </div>
     </div>
+    <el-dialog v-model="dialogVisible" style="height: auto; width: 30%; padding: 0;">
+      <div>
+        <vue3-video-player :src="videoSrc" ></vue3-video-player>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Bchart from "@/components/Bchart.vue";
 import Lchart from "@/components/Lchart.vue";
+import request from "@/utils/request";
 
 export default {
   name: "Page3",
   components: {Lchart, Bchart},
+  mounted() {
+    request.get("/face/intrusion_record/uid/"+sessionStorage.getItem('id')+"/").then(res=>{
+      const fieldsList = res.map((item) => item.fields);
+      this.tableData = fieldsList
+    })
+  },
   data(){
     return{
       form:{
@@ -88,7 +52,20 @@ export default {
         switch2: false,
         switch3: false,
         switch4: false,
-      }
+      },
+      imgSrc: '/api/face/intrusion_recognition/uid/'+sessionStorage.getItem('id')+'/',
+      tableData: [],
+      videoSrc: '',
+      dialogVisible: false,
+    }
+  },
+  methods:{
+    switchChange(){
+      this.imgSrc = '/api/service/serviceid/'+(this.form.switch1?1:0)+'/'+(this.form.switch2?1:0)+'/'+(this.form.switch3?1:0)+'/'+(this.form.switch4?1:0)+'/'
+    },
+    showVideo(path){
+      this.videoSrc="/api/face/intrusion_video/?path="+path
+      this.dialogVisible = true
     }
   }
 }
@@ -107,16 +84,9 @@ export default {
 .chart{
   /*height: 840px;*/
   width: 550px;
-  height: 340px;
+  height: 834px;
   border-radius: 20px;
   background: rgba(0, 0, 0, 0.3);
-}
-.chartDown{
-  width: 550px;
-  height: 480px;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  margin-top: 10px;
 }
 .table{
   height: 200px;

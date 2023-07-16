@@ -4,13 +4,26 @@
 
 <script>
 import * as echarts from 'echarts';
+import request from "@/utils/request";
 
 let myChart;
 let option;
 export default {
   name: "Lchart",
+  data(){
+    return{
+      xAxis: '',
+      yAxis: ''
+    }
+  },
   mounted() {
-    this.initChart()
+    const myDate = new Date();
+    let date = myDate.getDate()
+    this.xAxis = [date-6, date-5, date-4, date-3, date-2, date-1, date]
+    request.get("/face/week_record/uid/"+sessionStorage.getItem("id")+"/").then(res=>{
+      this.yAxis = JSON.parse(res.data)
+      this.initChart()
+    })
   },
   methods:{
     initChart(){
@@ -18,23 +31,15 @@ export default {
       option = {
         backgroundColor:'rgba(0,0,0,0)',
         xAxis: {
-          data: ['A', 'B', 'C', 'D', 'E']
+          data: this.xAxis
         },
-        yAxis: {},
+        yAxis: {
+        },
         series: [
           {
-            data: [10, 22, 28, 23, 19],
+            data: this.yAxis,
             type: 'line',
             areaStyle: {},
-            smooth: true
-          },
-          {
-            data: [25, 14, 23, 35, 10],
-            type: 'line',
-            areaStyle: {
-              color: '#ff0',
-              opacity: 0.5
-            },
             smooth: true
           }
         ]

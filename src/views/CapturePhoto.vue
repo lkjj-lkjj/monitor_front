@@ -1,11 +1,16 @@
 <template>
   <body>
   <div class="content">
-    <div class="video">
-      <video ref="video" autoplay></video>
+    <div class="progress-container">
+      <el-progress type="circle" :percentage=percentage :status=circleStatue></el-progress>
     </div>
-    <Ripple @click="capture" style="transform: scale(1.5); margin-left: 190px"></Ripple>
-    <a :href="downloadUrl" v-if="downloadUrl" download="captured-photo.jpg">下载照片</a>
+      <div class="video">
+        <video style="margin-left: -100px" ref="video" autoplay></video>
+      </div>
+    <div style="margin-left: 160px; margin-top: 20px;">
+      <span style="font-size: 30px; color: #ee8c47">Please blink!</span>
+    </div>
+    <Ripple @click="startCapture" style="transform: scale(1.5); margin-left: 119px; margin-top: -5px"></Ripple>
   </div>
   </body>
 </template>
@@ -13,15 +18,22 @@
 <script>
 import { ref, onMounted, onBeforeUnmount, reactive } from 'vue';
 import Ripple from "@/components/Ripple.vue";
+import request from "@/utils/request";
+import { useRouter } from 'vue-router';
 
 export default {
-  components: {Ripple},
+  components: { Ripple },
   setup() {
     const video = ref(null);
-    const capturedImage = reactive({ url: '' });
-    const captureWidth = 1280; // 设置拍摄照片的宽度
-    const captureHeight = 960; // 设置拍摄照片的高度
+    const capturedImages = reactive({ urls: [] });
+    const captureWidth = 640; // 设置拍摄照片的宽度
+    const captureHeight = 480; // 设置拍摄照片的高度
     let mediaStream = null; // 用于保存媒体流对象
+    let captureInterval = null; // 用于保存定时器
+
+    const percentage = ref(0);
+    const circleStatue = ref("");
+    const router = useRouter();
 
     const startCamera = async () => {
       try {
@@ -40,6 +52,12 @@ export default {
       }
     };
 
+    const sleep = (milliseconds) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+      });
+    };
+
     const capture = () => {
       const canvas = document.createElement('canvas');
       canvas.width = captureWidth;
@@ -51,16 +69,49 @@ export default {
 
       // 将画布转换为图像数据（Base64格式）
       const imageData = canvas.toDataURL('image/jpeg');
-      capturedImage.url = imageData;
+      capturedImages.urls.push(imageData);
 
-      // 更新下载链接
-      const downloadLink = document.createElement('a');
-      downloadLink.href = imageData;
-      downloadLink.download = 'captured-photo.jpg';
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
+      percentage.value = percentage.value + 8
+      console.log(percentage.value)
+    };
+
+    const startCapture = () => {
+      capturedImages.urls = []; // Clear previous captured images
+      capture(); // Capture an image immediately
+      captureInterval = setInterval(capture, 250); // Capture an image every 250 milliseconds (4 images per second)
+
+      // Stop capturing after 5 seconds (20 images)
+      setTimeout(stopCapture, 2900);
+    };
+
+    const stopCapture = async () => {
+      clearInterval(captureInterval);
+      request.post("/face/face_login/", {image: capturedImages.urls}).then(res=>{
+        if(res.code === 200){
+          percentage.value = 100
+          circleStatue.value = "success"
+          sessionStorage.setItem("id",res.data.id)
+          sessionStorage.setItem("username", res.data.username)
+          sessionStorage.setItem("email", res.data.email)
+          sessionStorage.setItem("curPage", "1")
+          let camera_urls = JSON.parse(res.data.camera_urls.replace(/'/g, "\""))
+          sessionStorage.setItem("camera1url", camera_urls.url1)
+          sessionStorage.setItem("camera2url", camera_urls.url2)
+          sessionStorage.setItem("camera3url", camera_urls.url3)
+          sessionStorage.setItem("camera4url", camera_urls.url4)
+        }
+        else{
+          percentage.value = 100
+          circleStatue.value = "exception"
+        }
+      })
+      await sleep(5000);
+      if(circleStatue.value === "success")
+        router.push('/page1');
+      else{
+        percentage.value = 0
+        circleStatue.value = ''
+      }
     };
 
     onMounted(() => {
@@ -73,9 +124,16 @@ export default {
 
     return {
       video,
-      capture,
-      downloadUrl: capturedImage.url
+      startCapture,
+      downloadUrl: capturedImages.urls[capturedImages.urls.length - 1],
+      percentage,
+      circleStatue
     };
+  },
+  data(){
+    return{
+
+    }
   }
 };
 </script>
@@ -95,13 +153,26 @@ body{
   position: absolute;
   width: 640px;
   height: 500px;
-  margin-left: 600px;
+  margin-left: 700px;
 }
 .video{
-  width: 640px;
+  width: 480px;
   height: 480px;
   border-radius: 50%;
   overflow: hidden;
   background-color: #333333;
+}
+.progress-container {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  margin: 0 auto;
+}
+
+.el-progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(4);
 }
 </style>

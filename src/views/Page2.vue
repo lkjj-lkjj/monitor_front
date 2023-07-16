@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex; width: 80%">
-    <div style="display: flex; flex-wrap: wrap; width: 1000px">
-      <div style="margin-top: 10px">
+    <div style="display: flex; flex-wrap: wrap; width: 1000px;margin-left: 160px">
+      <div style="margin-top: 50px; transform: scale(1.5); margin-left: 270px">
         <el-radio-group v-model="radio" size="large" style="--el-color-primary: rgb(108,108,108); color: #FFFFFF">
           <el-radio-button label="Camera 1" />
           <el-radio-button label="Camera 2" />
@@ -11,26 +11,24 @@
       </div>
       <div v-if="radio === 'Camera 1'" class="video" style="background-color: rgba(0,0,0,0.6); overflow: hidden; position: relative; margin-top: -140px">
         <img :src="imgSrc1" alt="" style="width: auto; height: 96%; border-radius: 10px; margin-top: 10px" ref="outerDiv">
-        <DragDiv ref="innerDiv"></DragDiv>
+        <DragDiv style="margin-left: 15px" ref="innerDiv"></DragDiv>
       </div>
       <div v-if="radio === 'Camera 2'" class="video" style="background-color: rgba(0,0,0,0.6); overflow: hidden; position: relative; margin-top: -140px">
         <img :src="imgSrc2" alt="" style="width: auto; height: 96%; border-radius: 10px; margin-top: 10px" ref="outerDiv">
-        <DragDiv ref="innerDiv"></DragDiv>
+        <DragDiv style="margin-left: 15px" ref="innerDiv"></DragDiv>
       </div>
       <div v-if="radio === 'Camera 3'" class="video" style="background-color: rgba(0,0,0,0.6); overflow: hidden; position: relative; margin-top: -140px">
         <img :src="imgSrc3" alt="" style="width: auto; height: 96%; border-radius: 10px; margin-top: 10px" ref="outerDiv">
-        <DragDiv ref="innerDiv"></DragDiv>
+        <DragDiv style="margin-left: 15px" ref="innerDiv"></DragDiv>
       </div>
       <div v-if="radio === 'Camera 4'" class="video" style="background-color: rgba(0,0,0,0.6); overflow: hidden; position: relative; margin-top: -140px">
         <img :src="imgSrc4" alt="" style="width: auto; height: 96%; border-radius: 10px; margin-top: 10px" ref="outerDiv">
-        <DragDiv ref="innerDiv"></DragDiv>
+        <DragDiv style="margin-left: 15px" ref="innerDiv"></DragDiv>
       </div>
-      <div style="position: absolute; margin-top: 650px; transform: scale(1.4); margin-left: 355px">
-        <Ripple></Ripple>
+      <div style="position: absolute; margin-top: 660px; transform: scale(1.4); margin-left: 355px">
+        <Ripple @click="updatePosition()"></Ripple>
       </div>
-
     </div>
-    <el-button @click="updatePosition()">click</el-button>
 
   </div>
 </template>
@@ -67,15 +65,14 @@ export default {
   //   observer.observe(this.$refs.outerDiv);
   // },
   mounted() {
-    if(sessionStorage.getItem('camera1url') !== null)
-      this.imgSrc1 = "http://127.0.0.1:8000/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera1url'))
-    if(sessionStorage.getItem('camera2url') !== null)
-      this.imgSrc2 = "http://127.0.0.1:8000/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera2url'))
-    if(sessionStorage.getItem('camera3url') !== null)
-      this.imgSrc3 = "http://127.0.0.1:8000/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera3url'))
-    if(sessionStorage.getItem('camera4url') !== null)
-      this.imgSrc4 = "http://127.0.0.1:8000/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera4url'))
-
+    if(sessionStorage.getItem('camera1url') !== "")
+      this.imgSrc1 = "/api/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera1url'))
+    if(sessionStorage.getItem('camera2url') !== "")
+      this.imgSrc2 = "/api/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera2url'))
+    if(sessionStorage.getItem('camera3url') !== "")
+      this.imgSrc3 = "/api/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera3url'))
+    if(sessionStorage.getItem('camera4url') !== "")
+      this.imgSrc4 = "/api/recognition/first_image/?camera_url=" + encodeURIComponent(sessionStorage.getItem('camera4url'))
 
 
     // if(sessionStorage.getItem('camera1url') !== null){

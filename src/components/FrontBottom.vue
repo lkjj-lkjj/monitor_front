@@ -1,25 +1,25 @@
 <template>
   <div style="transform: scale(0.7); margin-top: -500px">
     <div class="big_div  big_div_001 " id="jiaoshe">
-      <p id="title">角色介绍</p>
-      <div class="shell">
-        <div class="box">
+      <p id="title">小组成员</p>
+      <div class="shell11">
+        <div class="box1">
           <img src="../assets/accordion/lyx.jpg" title="lyx">
           <span>刘逸轩</span>
         </div>
-        <div class="box">
+        <div class="box1">
           <img src="../assets/accordion/ljy.jpg" title="ljy">
           <span>刘佳垚</span>
         </div>
-        <div class="box">
+        <div class="box1">
           <img src="../assets/accordion/lkj.jpg" title="lkj">
           <span>李可佳</span>
         </div>
-        <div class="box">
+        <div class="box1">
           <img src="../assets/accordion/lxq.jpg" title="lxq">
           <span>李雪奇</span>
         </div>
-        <div class="box">
+        <div class="box1">
           <img src="../assets/accordion/wyp.jpg" title="wyp">
           <span>汪怡芃</span>
         </div>
@@ -27,15 +27,15 @@
     </div>
 
     <div class="big_div big_div_002">
-      <div class="title" id="jsjs" style="color: #181818;">角色介绍</div>
+      <div class="title" id="jsjs" style="color: #181818;">工作介绍</div>
       <div class="small-box">
         <div class="box-left">
           <img src="../assets/accordion/lyx.jpg" alt="">
         </div>
         <div class="box-right">
-          <span>草壁梅</span>
-          <p>草壁皋月的妹妹，草壁梅性格更加活泼，她善于观察周遭有趣事物，但也常因冒失的举动让姐姐担心。</p>
-          <p>由于年龄太小，她不能理解为什么妈妈没有按照约定回家陪自己玩，并决定自己跑去市里寻找妈妈。</p>
+          <span>刘逸轩</span>
+          <p>主要负责动作识别模型的实现和所有模型的评估。</p>
+<!--          <p>由于年龄太小，她不能理解为什么妈妈没有按照约定回家陪自己玩，并决定自己跑去市里寻找妈妈。</p>-->
         </div>
       </div>
 
@@ -45,10 +45,10 @@
 
         </div>
         <div class="box-right">
-          <span>草壁皋月</span>
+          <span>刘佳垚</span>
 
-          <p> 草壁家中的长女，稍微年长的她在妈妈生病的时候充当着照顾妹妹的角色。</p>
-          <p>但说到底草壁皋月依然是一个小女孩，所以她才能和妹妹一起看到大人看不见的龙猫。性格温顺的她是家中的“小大人”。</p>
+          <p>主要负责情绪识别模型、微表情识别模型、人脸识别模型、眨眼识别模型、image caption模型、三维点云转二维平面图模型、手势识别模型的实现。</p>
+<!--          <p>但说到底草壁皋月依然是一个小女孩，所以她才能和妹妹一起看到大人看不见的龙猫。性格温顺的她是家中的“小大人”。</p>-->
         </div>
       </div>
 
@@ -58,10 +58,10 @@
 
         </div>
         <div class="box-right">
-          <span>草壁达郎</span>
+          <span>李可佳</span>
 
-          <p> 草壁皋月和草壁梅的父亲，同时也是一位大学教授。</p>
-          <p>草壁达郎工作忙碌而且要看望妻子，但是他始终对于两个女儿保持着关心。</p>
+          <p>主要负责前端架构、前端页面的实现和云服务器推拉流的实现。</p>
+<!--          <p>草壁达郎工作忙碌而且要看望妻子，但是他始终对于两个女儿保持着关心。</p>-->
         </div>
       </div>
 
@@ -70,9 +70,9 @@
           <img src="../assets/accordion/lxq.jpg" alt="">
         </div>
         <div class="box-right">
-          <span>龙猫</span>
-          <p>居住在森林中的巨大怪物。草壁梅独自一人在家中玩耍的时候，偶然进入森林之后发现了龙猫。</p>
-          <p>他曾经帮助姐妹二人使种子发芽，还曾经帮助草壁皋月找回了迷路的草壁梅。</p>
+          <span>李雪奇</span>
+          <p>主要负责服务端行人及宠物识别模块、情绪识别模块、闯入检测模块、模型服务模块的实现，以及模型的对接和接口测试。</p>
+<!--          <p>他曾经帮助姐妹二人使种子发芽，还曾经帮助草壁皋月找回了迷路的草壁梅。</p>-->
         </div>
       </div>
 
@@ -81,9 +81,9 @@
           <img src="../assets/accordion/wyp.jpg" alt="">
         </div>
         <div class="box-right">
-          <span>大垣勘太</span>
-          <p> 草壁家的邻居，是一个内向、害羞、乐于助人的小男孩。</p>
-          <p>他曾在见到草壁一家人的时候就告诉姐妹二人说他们家是“鬼屋”，大垣勘太坚信这个说法，他也拒绝进入草壁家的屋子。</p>
+          <span>汪怡芃</span>
+          <p>主要负责用户管理模块和接口测试。</p>
+<!--          <p>他曾在见到草壁一家人的时候就告诉姐妹二人说他们家是“鬼屋”，大垣勘太坚信这个说法，他也拒绝进入草壁家的屋子。</p>-->
         </div>
       </div>
       <div class="kong"></div>
@@ -94,12 +94,6 @@
     <div class="big_div" id="plot">
       <img src="../assets/accordion/rocket.gif" style="cursor: pointer; transform: scale(1.3)" @click="toLogin()">
       <div><img src="../assets/accordion/last.gif" alt="" title="出发"></div>
-      <p>
-        为了方便妻子草壁靖子养病，草壁达郎决定带着两个女儿草壁皋月和草壁梅搬到草壁靖子所在疗养院附近的乡下，父女三人入住了一间年久失修的老房子。小姐妹俩很快发现看似平凡无奇的乡下有很多神奇的事物，无人居住的房屋里能聚能散还能飞的“煤灰”、森林里的小精灵、森林的主人龙猫和笑口常开的猫巴士。
-      </p>
-      <p>
-        一天，妹妹草壁梅和姐姐草壁皋月吵了架之后，便独自出走去找自己生病住院的妈妈，途中却迷了路。姐姐在四处寻找无果的情况下，只好求助于龙猫。善良而温和的龙猫唤来猫巴士，载着姐姐找到了迷路的妹妹，乘着龙猫电车，妹妹把亲手摘的玉米送给了妈妈，希望她早日康复。
-      </p>
     </div>
 
   </div>
@@ -813,14 +807,14 @@ table.tftable td {
     width: 18px !important;
   }
 }
-.shell{
+.shell11{
   width: 95%;
   height: 500px;
   display: flex;
   top: 200px;
   margin: 10px auto 100px;
 }
-.box{
+.box1{
   flex: 1;
   overflow: hidden;
   transition: .5s;
@@ -830,13 +824,13 @@ table.tftable td {
   border: 10px solid #fff;
   background-color: #fff;
 }
-.box>img{
+.box1>img{
   width: 100%;
   height: 60%;
   object-fit: cover;
   transition: .5s;
 }
-.box>span{
+.box1>span{
   font: 200 45px '优设标题黑';
   text-align: center;
   height: 40%;
@@ -845,10 +839,10 @@ table.tftable td {
   align-items: center;
   color: #181818;
 }
-.box:hover{
+.box1:hover{
   flex-basis: 10%;
 }
-.box:hover>img{
+.box1:hover>img{
   width: 100%;
   height: 100%;
 }

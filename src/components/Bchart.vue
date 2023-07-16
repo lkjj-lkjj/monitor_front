@@ -4,33 +4,36 @@
 
 <script>
 import * as echarts from 'echarts';
+import request from "@/utils/request";
 
 let option;
 let myChart;
 
 export default {
   name: "Bchart",
-  mounted() {
-    this.initChart();
-    setInterval(()=>{
-      option = {
-        series: [
-            {
-              data: [Math.random()*1000, Math.random()*1000, Math.random()*1000, Math.random()*1000, Math.random()*1000, Math.random()*1000, Math.random()*1000]
-            }
-        ]
-      }
-      myChart.setOption(option)
-    }, 1000)
+  data() {
+    return {
+      xAxis: '',
+      yAxis: '',
+    }
   },
-  methods:{
+  mounted() {
+    const myDate = new Date();
+    let date = myDate.getDate()
+    this.xAxis = [date - 6, date - 5, date - 4, date - 3, date - 2, date - 1, date]
+    request.get("/recognition/week_record/uid/" + sessionStorage.getItem("id") + "/").then(res => {
+      this.yAxis = JSON.parse(res.data)
+      this.initChart();
+    })
+  },
+  methods: {
     initChart() {
       myChart = echarts.init(document.getElementById('bchart'), 'dark')
       option = {
-        backgroundColor:'rgba(0,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,0)',
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.xAxis,
           axisLabel: {
             fontSize: 22  // 设置 x 轴标签字体大小为 12
           }
@@ -43,7 +46,7 @@ export default {
         },
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 130],
+            data: this.yAxis,
             type: 'bar',
             showBackground: true,
             backgroundStyle: {
